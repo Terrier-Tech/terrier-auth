@@ -14,7 +14,11 @@ Gem::Specification.new do |s|
   s.description = ''
   s.license = 'MIT'
 
-  s.files = Dir['{app,config,db,lib,vendor}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.md']
+  s.files = Dir['lib/**/*', 'Rakefile', 'README.md']
+  s.require_paths = ['lib']
+
+  # Specify the default file required when requiring the gem
+  s.requirements = ['terrier_auth']
 
   s.add_dependency 'amazing_print'
   s.add_dependency 'dotenv-rails'
