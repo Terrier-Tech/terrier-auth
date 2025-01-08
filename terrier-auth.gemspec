@@ -18,7 +18,6 @@ Gem::Specification.new do |s|
   s.files = Dir['lib/**/*', 'Rakefile', 'README.md']
 
   s.add_dependency 'amazing_print'
-  s.add_dependency 'dotenv-rails'
   s.add_dependency 'http'
   s.add_dependency 'colorize'
   s.add_dependency 'net-ssh'
