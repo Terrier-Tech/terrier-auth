@@ -5,7 +5,7 @@ require 'terrier_auth/version'
 
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
-  s.name = 'terrier-auth'
+  s.name = 'terrier_auth'
   s.version = TerrierAuth::VERSION
   s.authors = ['Andy Selvig']
   s.email = ['andy@terrier.tech']
@@ -14,11 +14,8 @@ Gem::Specification.new do |s|
   s.description = ''
   s.license = 'MIT'
 
-  s.files = Dir['lib/**/*', 'Rakefile', 'README.md']
   s.require_paths = ['lib']
-
-  # Specify the default file required when requiring the gem
-  s.requirements = ['terrier_auth']
+  s.files = Dir['lib/**/*', 'Rakefile', 'README.md']
 
   s.add_dependency 'amazing_print'
   s.add_dependency 'dotenv-rails'

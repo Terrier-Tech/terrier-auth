@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    terrier-auth (0.1.0)
+    terrier_auth (0.1.1)
       amazing_print
       colorize
       dotenv-rails
@@ -140,7 +140,7 @@ PLATFORMS
   arm64-darwin
 
 DEPENDENCIES
-  terrier-auth!
+  terrier_auth!
 
 BUNDLED WITH
    2.5.11
