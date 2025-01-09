@@ -11,20 +11,20 @@ class TerrierAuth::SshKeys
   end
 
   def debug(message)
-    puts "[DEBUG #{log_timestamp}] #{message}]"
+    puts "[DEBUG #{log_timestamp}] #{message}"
   end
 
   def info(message)
-    puts "[INFO #{log_timestamp}] #{message}]"
+    puts "[INFO #{log_timestamp}] #{message}"
   end
 
   def warn(message)
-    puts "[WARN #{log_timestamp}] #{message}]"
+    puts "[WARN #{log_timestamp}] #{message}"
   end
 
   # @return [String] the absolute directory to the ssh files on this machine.
   def ssh_dir
-    File.expand_path("~/.ssh/*")
+    File.expand_path("~/.ssh")
   end
 
   # Gets the private key for this machine.
@@ -32,7 +32,7 @@ class TerrierAuth::SshKeys
   # @return [SSHData::PrivateKey::Base]
   def load_private_key
     # compute the file path
-    private_key_files = Dir.glob(ssh_dir).select do |file|
+    private_key_files = Dir.glob(ssh_dir + '/*').select do |file|
       File.file?(file) && File.readable?(file) && file.match(/id_(rsa|dsa|ecdsa|ed25519)$/)
     end
     raise "No private keys found in #{ssh_dir}" if private_key_files.empty?
@@ -47,7 +47,7 @@ class TerrierAuth::SshKeys
   # Assumes it's in ~/.ssh and has a standard name like id_rsa.pub or id_ed25519.pub.
   # @return [String]
   def load_public_key
-    public_key_files = Dir.glob(ssh_dir).select do |file|
+    public_key_files = Dir.glob(ssh_dir + '/*').select do |file|
       File.file?(file) && File.readable?(file) && file.match(/id_(rsa|dsa|ecdsa|ed25519).pub$/)
     end
     raise "No public keys found in #{ssh_dir}" if public_key_files.empty?
@@ -86,6 +86,7 @@ class TerrierAuth::SshKeys
       return false
     end
     public_keys = load_all_public_keys
+    debug "has_public_key? loaded #{public_keys.count} public keys"
     public_keys.each do |key|
       this_raw = key.split(/\s+/)[1]
       if this_raw == other_raw
