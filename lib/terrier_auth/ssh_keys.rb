@@ -18,6 +18,10 @@ class TerrierAuth::SshKeys
     puts "[INFO #{log_timestamp}] #{message}]"
   end
 
+  def warn(message)
+    puts "[WARN #{log_timestamp}] #{message}]"
+  end
+
   # @return [String] the absolute directory to the ssh files on this machine.
   def ssh_dir
     File.expand_path("~/.ssh/*")
@@ -71,6 +75,27 @@ class TerrierAuth::SshKeys
     [public_key.to_s] + authorized_keys
   end
 
+  # Validates that the given public key is included in this machine's authorized_keys file.
+  # Only compares the second component - the actual key - since the trailing user string is arbitrary.
+  # @param other_key [String] a raw public key string to compare
+  # @return [Boolean]
+  def has_public_key?(other_key)
+    other_raw = other_key.split(/\s+/)[1]
+    unless other_raw
+      warn "has_public_key? was passed a public key without a second component: #{other_key}"
+      return false
+    end
+    public_keys = load_all_public_keys
+    public_keys.each do |key|
+      this_raw = key.split(/\s+/)[1]
+      if this_raw == other_raw
+        info "has_public_key? matched public key #{this_raw}"
+        return true
+      end
+    end
+    false
+  end
+
   # @return [Hash] with:
   #   - :ssh_challenge [String] a timestamp string
   #   - :ssh_signature [String] the challenge string encrypted
@@ -119,8 +144,7 @@ class TerrierAuth::SshKeys
     end
 
     # verify that the public key is on this machine
-    public_keys = load_all_public_keys
-    unless public_keys.include? raw_key
+    unless has_public_key?(raw_key)
       raise "Public key #{raw_key} is not on this machine!"
     end
 
