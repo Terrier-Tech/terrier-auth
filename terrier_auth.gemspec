@@ -1,7 +1,7 @@
 $:.push File.expand_path('lib', __dir__)
 
 # Maintain your gem's version:
-require 'terrier_auth/version'
+require_relative 'lib/terrier_auth/version'
 
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
   s.license = 'MIT'
 
   s.require_paths = ['lib']
-  s.files = Dir['lib/**/*', 'Rakefile', 'README.md']
+  s.files = Dir['lib/**/*', 'Rakefile', 'README.md', 'LICENSE']
 
   s.add_dependency 'amazing_print'
   s.add_dependency 'http'
