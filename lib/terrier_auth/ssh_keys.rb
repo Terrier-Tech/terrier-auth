@@ -6,11 +6,20 @@ require 'ap'
 # Manages the SSH keys on this machine.
 class TerrierAuth::SshKeys
 
+  attr_accessor :log_level
+
+  def initialize
+    super
+
+    @log_level = :info
+  end
+
   def log_timestamp
     Time.now.strftime("%Y-%m-%d %H:%M:%S")
   end
 
   def debug(message)
+    return unless @log_level == :debug
     puts "[DEBUG #{log_timestamp}] #{message}"
   end
 
@@ -90,7 +99,7 @@ class TerrierAuth::SshKeys
     public_keys.each do |key|
       this_raw = key.split(/\s+/)[1]
       if this_raw == other_raw
-        info "has_public_key? matched public key #{this_raw}"
+        debug "has_public_key? matched public key #{this_raw}"
         return true
       end
     end
